@@ -15,6 +15,9 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+#include <unistd.h>
 
 #include <linux/input.h>
 
@@ -95,7 +98,13 @@ int main (int argc, char **argv)
         break;
       }
       break;
+    default:
+      if(errno == ENODEV){ // gpio device is gone
+	exit(1);
+      }
     }
+    errno = 0;
+
   }
 
   return 0;
